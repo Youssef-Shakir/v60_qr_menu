@@ -1,6 +1,6 @@
 {
     'name': 'V60 QR Menu',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'category': 'Point of Sale',
     'summary': 'Custom QR Menu with V60 Café Design',
     'description': """
@@ -11,10 +11,12 @@
         - Wavy line separators for items
         - Mobile-responsive layout
         - QR code generation for easy access
+        - Manual menu items: Add custom items with name and price
+        - Flexible item source: Odoo products, manual items, or both
     """,
     'author': 'V60 Café',
     'website': '',
-    'depends': ['point_of_sale', 'pos_restaurant'],
+    'depends': ['web', 'point_of_sale', 'pos_restaurant'],
     'data': [
         'security/ir.model.access.csv',
         'views/v60_menu_config_views.xml',

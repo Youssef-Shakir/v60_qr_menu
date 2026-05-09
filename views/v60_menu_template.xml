@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Landing Page Template -->
+    <!-- Landing Page Template - Standalone for public access -->
     <template id="v60_landing_page" name="V60 Landing Page">
-        <t t-call="web.frontend_layout">
-            <t t-set="head">
+        <html>
+            <head>
+                <meta charset="UTF-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+                <title><t t-esc="menu_config.cafe_name or 'V60 Café'"/></title>
                 <link rel="stylesheet" href="/v60_qr_menu/static/src/css/v60_menu.css"/>
                 <style>
                     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&amp;family=Lora:wght@400;500;600&amp;display=swap');
 
-                    .v60-landing-body {
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+                    body {
                         min-height: 100vh;
                         background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         padding: 20px;
-                        margin: 0;
+                        font-family: 'Lora', 'Georgia', serif;
                     }
 
                     .v60-landing-card {
@@ -46,7 +50,6 @@
 
                     .v60-landing-logo-text {
                         color: #ffffff;
-                        font-family: 'Lora', serif;
                         font-size: 36px;
                         font-weight: bold;
                     }
@@ -54,7 +57,6 @@
                     .v60-landing-logo-sub {
                         color: #ffffff;
                         font-size: 12px;
-                        font-family: 'Lora', serif;
                     }
 
                     .v60-landing-title {
@@ -65,7 +67,6 @@
                     }
 
                     .v60-landing-subtitle {
-                        font-family: 'Lora', serif;
                         font-size: 16px;
                         color: #888888;
                         margin-bottom: 50px;
@@ -116,11 +117,8 @@
                         height: 24px;
                     }
                 </style>
-            </t>
-            <t t-set="no_header" t-value="True"/>
-            <t t-set="no_footer" t-value="True"/>
-
-            <body class="v60-landing-body">
+            </head>
+            <body>
                 <div class="v60-landing-card">
                     <!-- Logo -->
                     <div class="v60-landing-logo">
@@ -157,30 +155,33 @@
                     </t>
                 </div>
             </body>
-        </t>
+        </html>
     </template>
 
-    <!-- Main Menu Page Template -->
+    <!-- Main Menu Page Template - Standalone for public access -->
     <template id="v60_menu_page" name="V60 QR Menu Page">
-        <t t-call="web.frontend_layout">
-            <t t-set="head">
+        <html>
+            <head>
+                <meta charset="UTF-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+                <title><t t-esc="menu_config.cafe_name or 'V60 Café'"/> - Menu</title>
                 <link rel="stylesheet" href="/v60_qr_menu/static/src/css/v60_menu.css"/>
                 <style>
-                    /* Google Fonts fallback */
                     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&amp;family=Lora:wght@400;500;600&amp;display=swap');
+
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+                    body {
+                        font-family: 'Lora', 'Georgia', serif;
+                        background-color: #ffffff;
+                        min-height: 100vh;
+                    }
 
                     .v60-menu-title {
                         font-family: 'Dancing Script', 'Brush Script MT', cursive;
                     }
-                    .v60-item-name, .v60-item-price, .v60-category-title {
-                        font-family: 'Lora', 'Georgia', serif;
-                    }
                 </style>
-            </t>
-            <t t-set="no_header" t-value="True"/>
-            <t t-set="no_footer" t-value="True"/>
-
+            </head>
             <body class="v60-menu-body">
                 <div class="v60-menu-container">
                     <!-- Header with Menu Title and Logo -->
@@ -264,6 +265,6 @@
                     </t>
                 </div>
             </body>
-        </t>
+        </html>
     </template>
 </odoo>

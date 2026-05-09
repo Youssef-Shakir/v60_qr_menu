@@ -30,7 +30,8 @@
                     </div>
                     <group>
                         <group string="Configuration">
-                            <field name="pos_config_id" options="{'no_create': True}"/>
+                            <field name="item_source" widget="radio"/>
+                            <field name="pos_config_id" options="{'no_create': True}" invisible="item_source == 'manual'"/>
                             <field name="cafe_name"/>
                             <field name="currency_id" options="{'no_create': True}"/>
                             <field name="active" invisible="1"/>
@@ -40,7 +41,7 @@
                             <field name="instagram_url" placeholder="https://instagram.com/yourcafe"/>
                         </group>
                     </group>
-                    <group string="Category Mapping">
+                    <group string="Odoo POS Categories" invisible="item_source == 'manual'">
                         <group>
                             <label for="hot_category_ids" string="Light Section (White BG)"/>
                             <field name="hot_category_ids" widget="many2many_tags" nolabel="1" placeholder="Select categories for white background..."/>
@@ -50,6 +51,24 @@
                             <field name="cold_category_ids" widget="many2many_tags" nolabel="1" placeholder="Select categories for black background..."/>
                         </group>
                     </group>
+                    <notebook invisible="item_source == 'odoo'">
+                        <page string="Manual Menu Items" name="manual_items">
+                            <field name="manual_item_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="price"/>
+                                    <field name="category_name"/>
+                                    <field name="section"/>
+                                    <field name="description" optional="hide"/>
+                                    <field name="active" optional="hide"/>
+                                </list>
+                            </field>
+                            <div class="alert alert-light mt-3" role="alert">
+                                <strong>Tip:</strong> Create your own categories by typing a category name (e.g., "HOT BEVERAGES", "COLD COFFEE", "MOCKTAILS"). Items with the same category name will be grouped together.
+                            </div>
+                        </page>
+                    </notebook>
                     <group string="Access">
                         <group>
                             <field name="access_token" readonly="1"/>
@@ -62,8 +81,9 @@
                     <div class="alert alert-info" role="alert">
                         <strong>Instructions:</strong>
                         <ol>
-                            <li>Select the POS Configuration that contains your products</li>
-                            <li>Assign POS categories to Light Section (white background) or Dark Section (black background)</li>
+                            <li>Choose your item source: Odoo POS products, Manual items, or Both</li>
+                            <li>For Odoo products: Select POS Configuration and assign categories to Light/Dark sections</li>
+                            <li>For Manual items: Add items directly with name, price, and category</li>
                             <li>Upload your logo (optional)</li>
                             <li>Copy the Menu URL or click "View QR Code" to share with customers</li>
                         </ol>

@@ -7,7 +7,7 @@ class V60MenuConfig(models.Model):
     _description = 'V60 QR Menu Configuration'
 
     name = fields.Char(string='Menu Name', required=True, default='V60 Café Menu')
-    pos_config_id = fields.Many2one('pos.config', string='POS Configuration', required=True,
+    pos_config_id = fields.Many2one('pos.config', string='POS Configuration',
                                      help='Select the POS configuration to fetch products from')
     active = fields.Boolean(default=True)
     access_token = fields.Char(string='Access Token', copy=False, readonly=True)
@@ -24,6 +24,14 @@ class V60MenuConfig(models.Model):
                                       help='Background color for cold beverages section')
     primary_text_color = fields.Char(string='Primary Text Color', default='#000000')
     secondary_text_color = fields.Char(string='Secondary Text Color', default='#FFFFFF')
+
+    # Item source selection
+    item_source = fields.Selection([
+        ('odoo', 'From Odoo POS Products'),
+        ('manual', 'Manual Items Only'),
+        ('both', 'Both Odoo & Manual Items'),
+    ], string='Item Source', default='odoo', required=True,
+       help='Choose whether to use Odoo POS products, manual items, or both')
 
     # Category mappings - Light sections (white background)
     hot_category_ids = fields.Many2many(
@@ -43,6 +51,9 @@ class V60MenuConfig(models.Model):
         string='Dark Section Categories',
         help='Categories to display in the dark section (black background)'
     )
+
+    # Manual menu items
+    manual_item_ids = fields.One2many('v60.menu.item', 'menu_config_id', string='Manual Menu Items')
 
     # Currency
     currency_id = fields.Many2one('res.currency', string='Currency',
@@ -71,65 +82,93 @@ class V60MenuConfig(models.Model):
 
     def _compute_menu_url(self):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        db_name = self.env.cr.dbname
         for record in self:
-            record.menu_url = f"{base_url}/v60-menu/{record.id}?token={record.access_token}"
+            record.menu_url = f"{base_url}/v60-menu/{record.id}?token={record.access_token}&db={db_name}"
 
     def _compute_qr_code_url(self):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        db_name = self.env.cr.dbname
         for record in self:
-            menu_url = f"{base_url}/v60-menu/{record.id}?token={record.access_token}"
+            menu_url = f"{base_url}/v60-menu/{record.id}?token={record.access_token}&db={db_name}"
             record.qr_code_url = f"/report/barcode/QR/{menu_url}?width=300&height=300"
 
     def get_menu_data(self):
         """Get all menu data for rendering"""
         self.ensure_one()
 
-        # Get hot beverage products
-        hot_products = []
-        if self.hot_category_ids:
-            hot_domain = [
-                ('available_in_pos', '=', True),
-                ('pos_categ_ids', 'in', self.hot_category_ids.ids),
-            ]
-            hot_products = self.env['product.product'].sudo().search(hot_domain, order='sequence, name')
-
-        # Get cold beverage products
-        cold_products = []
-        if self.cold_category_ids:
-            cold_domain = [
-                ('available_in_pos', '=', True),
-                ('pos_categ_ids', 'in', self.cold_category_ids.ids),
-            ]
-            cold_products = self.env['product.product'].sudo().search(cold_domain, order='sequence, name')
-
-        # Group by category
         hot_by_category = {}
-        for product in hot_products:
-            for categ in product.pos_categ_ids:
-                if categ.id in self.hot_category_ids.ids:
-                    if categ.name not in hot_by_category:
-                        hot_by_category[categ.name] = []
-                    hot_by_category[categ.name].append({
-                        'id': product.id,
-                        'name': product.name,
-                        'price': product.lst_price,
-                        'description': product.description_sale or '',
-                    })
-                    break
-
         cold_by_category = {}
-        for product in cold_products:
-            for categ in product.pos_categ_ids:
-                if categ.id in self.cold_category_ids.ids:
-                    if categ.name not in cold_by_category:
-                        cold_by_category[categ.name] = []
-                    cold_by_category[categ.name].append({
-                        'id': product.id,
-                        'name': product.name,
-                        'price': product.lst_price,
-                        'description': product.description_sale or '',
+
+        # Get Odoo POS products if source is 'odoo' or 'both'
+        if self.item_source in ('odoo', 'both'):
+            # Get hot beverage products
+            hot_products = []
+            if self.hot_category_ids:
+                hot_domain = [
+                    ('available_in_pos', '=', True),
+                    ('pos_categ_ids', 'in', self.hot_category_ids.ids),
+                ]
+                hot_products = self.env['product.product'].sudo().search(hot_domain, order='sequence, name')
+
+            # Get cold beverage products
+            cold_products = []
+            if self.cold_category_ids:
+                cold_domain = [
+                    ('available_in_pos', '=', True),
+                    ('pos_categ_ids', 'in', self.cold_category_ids.ids),
+                ]
+                cold_products = self.env['product.product'].sudo().search(cold_domain, order='sequence, name')
+
+            # Group by category
+            for product in hot_products:
+                for categ in product.pos_categ_ids:
+                    if categ.id in self.hot_category_ids.ids:
+                        if categ.name not in hot_by_category:
+                            hot_by_category[categ.name] = []
+                        hot_by_category[categ.name].append({
+                            'id': product.id,
+                            'name': product.name,
+                            'price': product.lst_price,
+                            'description': product.description_sale or '',
+                        })
+                        break
+
+            for product in cold_products:
+                for categ in product.pos_categ_ids:
+                    if categ.id in self.cold_category_ids.ids:
+                        if categ.name not in cold_by_category:
+                            cold_by_category[categ.name] = []
+                        cold_by_category[categ.name].append({
+                            'id': product.id,
+                            'name': product.name,
+                            'price': product.lst_price,
+                            'description': product.description_sale or '',
+                        })
+                        break
+
+        # Get manual items if source is 'manual' or 'both'
+        if self.item_source in ('manual', 'both'):
+            manual_items = self.manual_item_ids.filtered(lambda i: i.active)
+            for item in manual_items:
+                if item.section == 'light':
+                    if item.category_name not in hot_by_category:
+                        hot_by_category[item.category_name] = []
+                    hot_by_category[item.category_name].append({
+                        'id': f'manual_{item.id}',
+                        'name': item.name,
+                        'price': item.price,
+                        'description': item.description or '',
                     })
-                    break
+                else:  # dark section
+                    if item.category_name not in cold_by_category:
+                        cold_by_category[item.category_name] = []
+                    cold_by_category[item.category_name].append({
+                        'id': f'manual_{item.id}',
+                        'name': item.name,
+                        'price': item.price,
+                        'description': item.description or '',
+                    })
 
         return {
             'config': {
