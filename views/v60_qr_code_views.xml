@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- QR Code Print Page Template -->
+    <template id="v60_qr_code_page" name="V60 QR Code Print Page">
+        <t t-call="web.html_container">
+            <t t-set="head">
+                <meta charset="UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <title>QR Code - <t t-esc="menu_config.cafe_name or 'V60 Café'"/></title>
+                <link rel="stylesheet" href="/v60_qr_menu/static/src/css/v60_menu.css"/>
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&amp;display=swap');
+
+                    body {
+                        font-family: 'Lora', 'Georgia', serif;
+                        background-color: #f5f5f5;
+                        min-height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 20px;
+                        margin: 0;
+                    }
+
+                    .v60-qr-card {
+                        background: #ffffff;
+                        border: 3px solid #000000;
+                        border-radius: 20px;
+                        padding: 40px;
+                        text-align: center;
+                        max-width: 400px;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                    }
+
+                    .v60-qr-logo {
+                        width: 80px;
+                        height: 80px;
+                        margin: 0 auto 20px;
+                        border: 2px solid #000;
+                        border-radius: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #000;
+                        color: #fff;
+                    }
+
+                    .v60-qr-logo-text {
+                        font-size: 28px;
+                        font-weight: bold;
+                    }
+
+                    .v60-qr-logo-sub {
+                        font-size: 10px;
+                    }
+
+                    .v60-qr-heading {
+                        font-size: 32px;
+                        font-weight: 600;
+                        color: #000000;
+                        margin-bottom: 10px;
+                    }
+
+                    .v60-qr-subheading {
+                        font-size: 16px;
+                        color: #666666;
+                        margin-bottom: 30px;
+                    }
+
+                    .v60-qr-code {
+                        margin: 20px 0;
+                        padding: 20px;
+                        background: #ffffff;
+                        border: 2px solid #e0e0e0;
+                        border-radius: 15px;
+                        display: inline-block;
+                    }
+
+                    .v60-qr-code img {
+                        width: 200px;
+                        height: 200px;
+                    }
+
+                    .v60-qr-instruction {
+                        font-size: 18px;
+                        color: #333333;
+                        margin: 20px 0 10px;
+                    }
+
+                    .v60-qr-scan-text {
+                        font-size: 14px;
+                        color: #888888;
+                    }
+
+                    .v60-qr-url {
+                        font-size: 11px;
+                        color: #aaaaaa;
+                        margin-top: 20px;
+                        word-break: break-all;
+                        padding: 10px;
+                        background: #f9f9f9;
+                        border-radius: 8px;
+                    }
+
+                    .v60-print-btn {
+                        margin-top: 30px;
+                        padding: 12px 40px;
+                        font-size: 16px;
+                        font-family: 'Lora', serif;
+                        background: #000000;
+                        color: #ffffff;
+                        border: none;
+                        border-radius: 25px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    }
+
+                    .v60-print-btn:hover {
+                        background: #333333;
+                        transform: translateY(-2px);
+                    }
+
+                    @media print {
+                        body {
+                            background: #ffffff;
+                        }
+
+                        .v60-qr-card {
+                            box-shadow: none;
+                            border: 2px solid #000;
+                        }
+
+                        .v60-print-btn {
+                            display: none;
+                        }
+
+                        .v60-qr-url {
+                            display: none;
+                        }
+                    }
+                </style>
+            </t>
+            <t t-set="body_classname" t-value="''"/>
+            <div class="v60-qr-card">
+                <div class="v60-qr-logo">
+                    <div>
+                        <div class="v60-qr-logo-text">V60</div>
+                        <div class="v60-qr-logo-sub">Café</div>
+                    </div>
+                </div>
+
+                <h1 class="v60-qr-heading">
+                    <t t-esc="menu_config.cafe_name or 'V60 Café'"/>
+                </h1>
+                <p class="v60-qr-subheading">Digital Menu</p>
+
+                <div class="v60-qr-code">
+                    <img t-att-src="'/report/barcode/QR/' + menu_url + '?width=200&amp;height=200'" alt="QR Code"/>
+                </div>
+
+                <p class="v60-qr-instruction">Scan to view menu</p>
+                <p class="v60-qr-scan-text">Point your phone camera at the QR code</p>
+
+                <div class="v60-qr-url">
+                    <t t-esc="menu_url"/>
+                </div>
+
+                <button class="v60-print-btn" onclick="window.print()">
+                    Print QR Code
+                </button>
+            </div>
+        </t>
+    </template>
+</odoo>

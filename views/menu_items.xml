@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Main Menu under Point of Sale -->
+    <menuitem
+        id="menu_v60_qr_menu_root"
+        name="V60 QR Menu"
+        parent="point_of_sale.menu_point_root"
+        sequence="50"/>
+
+    <!-- Configuration submenu -->
+    <menuitem
+        id="menu_v60_menu_config"
+        name="Menu Configuration"
+        parent="menu_v60_qr_menu_root"
+        action="action_v60_menu_config"
+        sequence="10"/>
+</odoo>

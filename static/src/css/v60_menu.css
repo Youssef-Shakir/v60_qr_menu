@@ -1,0 +1,352 @@
+/* V60 Café QR Menu Styles */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.v60-menu-body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background-color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.v60-menu-container {
+    max-width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+}
+
+/* Header Section */
+.v60-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px 30px 10px;
+    background-color: #ffffff;
+}
+
+.v60-menu-title {
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-size: 48px;
+    font-weight: normal;
+    color: #000000;
+    letter-spacing: 2px;
+}
+
+.v60-logo-container {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background: #000000;
+}
+
+.v60-logo-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.v60-logo-text {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.v60-logo-subtext {
+    color: #ffffff;
+    font-size: 10px;
+    text-align: center;
+}
+
+/* Category Section - Light (Hot Beverages) */
+.v60-section-light {
+    background-color: #ffffff;
+    padding: 20px 30px 40px;
+}
+
+.v60-section-dark {
+    background-color: #000000;
+    padding: 30px;
+    border-radius: 0;
+}
+
+/* Category Header */
+.v60-category-header {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.v60-category-title {
+    font-family: 'Georgia', serif;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    padding: 8px 25px;
+    border: 2px solid currentColor;
+    border-radius: 25px;
+    display: inline-block;
+}
+
+.v60-category-title-light {
+    color: #000000;
+    border-color: #000000;
+}
+
+.v60-category-title-dark {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+/* Menu Items */
+.v60-menu-items {
+    list-style: none;
+}
+
+.v60-menu-item {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+.v60-item-name {
+    font-family: 'Georgia', serif;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.v60-item-name-light {
+    color: #000000;
+}
+
+.v60-item-name-dark {
+    color: #ffffff;
+}
+
+.v60-item-line {
+    flex: 1;
+    height: 1px;
+    margin: 0 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.v60-item-line::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        currentColor 2px,
+        currentColor 4px,
+        transparent 4px,
+        transparent 8px
+    );
+    transform: translateY(-50%);
+}
+
+/* Wavy line effect */
+.v60-item-line-wavy {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='10' viewBox='0 0 100 10'%3E%3Cpath d='M0 5 Q 12.5 0, 25 5 T 50 5 T 75 5 T 100 5' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: center;
+    height: 10px;
+}
+
+.v60-item-line-wavy-dark {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='10' viewBox='0 0 100 10'%3E%3Cpath d='M0 5 Q 12.5 0, 25 5 T 50 5 T 75 5 T 100 5' fill='none' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+.v60-item-price {
+    font-family: 'Georgia', serif;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.v60-item-price-light {
+    color: #000000;
+}
+
+.v60-item-price-dark {
+    color: #ffffff;
+}
+
+/* Dark Section with Multiple Categories */
+.v60-dark-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.v60-dark-category {
+    flex: 1;
+    min-width: 280px;
+}
+
+/* Item Description */
+.v60-item-description {
+    font-size: 12px;
+    font-style: italic;
+    opacity: 0.7;
+    margin-left: 10px;
+}
+
+/* Two Column Layout */
+.v60-two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 30px;
+}
+
+.v60-two-columns .v60-menu-item {
+    margin-bottom: 8px;
+}
+
+/* Adjacent dark/light sections styling */
+.v60-section-dark + .v60-section-light,
+.v60-section-light + .v60-section-dark {
+    margin-top: 0;
+}
+
+/* Grouped dark sections (side by side) */
+.v60-grouped-dark {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #000000;
+    padding: 30px;
+}
+
+.v60-grouped-dark .v60-dark-category {
+    flex: 1;
+    min-width: 250px;
+    padding: 0 15px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .v60-two-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .v60-menu-header {
+        padding: 15px 20px;
+    }
+
+    .v60-menu-title {
+        font-size: 36px;
+    }
+
+    .v60-logo-container {
+        width: 60px;
+        height: 60px;
+    }
+
+    .v60-section-light,
+    .v60-section-dark {
+        padding: 20px;
+    }
+
+    .v60-category-title {
+        font-size: 16px;
+        padding: 6px 18px;
+    }
+
+    .v60-menu-item {
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+    .v60-dark-categories {
+        flex-direction: column;
+    }
+
+    .v60-dark-category {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .v60-menu-title {
+        font-size: 28px;
+    }
+
+    .v60-category-title {
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+
+    .v60-menu-item {
+        font-size: 14px;
+    }
+}
+
+/* QR Code Print Page */
+.v60-qr-print-page {
+    padding: 40px;
+    text-align: center;
+    font-family: 'Georgia', serif;
+}
+
+.v60-qr-container {
+    display: inline-block;
+    padding: 30px;
+    border: 3px solid #000000;
+    border-radius: 15px;
+    background: #ffffff;
+}
+
+.v60-qr-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.v60-qr-image {
+    margin: 20px 0;
+}
+
+.v60-qr-image img {
+    width: 250px;
+    height: 250px;
+}
+
+.v60-qr-instruction {
+    font-size: 16px;
+    color: #333333;
+    margin-top: 15px;
+}
+
+.v60-qr-url {
+    font-size: 12px;
+    color: #666666;
+    margin-top: 10px;
+    word-break: break-all;
+}
+
+/* Print styles */
+@media print {
+    .v60-qr-print-page {
+        padding: 20px;
+    }
+
+    .v60-qr-container {
+        border: 2px solid #000000;
+    }
+}

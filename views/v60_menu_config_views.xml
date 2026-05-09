@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Print QR Code Action - MUST be defined before form view that references it -->
+    <record id="action_v60_print_qr" model="ir.actions.act_url">
+        <field name="name">Print QR Code</field>
+        <field name="url">/v60-menu/print-qr/%(active_id)s</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- V60 Menu Config Form View -->
+    <record id="v60_menu_config_form_view" model="ir.ui.view">
+        <field name="name">v60.menu.config.form</field>
+        <field name="model">v60.menu.config</field>
+        <field name="arch" type="xml">
+            <form string="V60 QR Menu Configuration">
+                <header>
+                    <button name="action_regenerate_token" type="object" string="Regenerate Token" class="btn-secondary" confirm="This will invalidate the current QR code links. Continue?"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(v60_qr_menu.action_v60_print_qr)d" type="action" class="oe_stat_button" icon="fa-qrcode">
+                            <span>View QR Code</span>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Menu Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Configuration">
+                            <field name="pos_config_id" options="{'no_create': True}"/>
+                            <field name="cafe_name"/>
+                            <field name="currency_id" options="{'no_create': True}"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Branding">
+                            <field name="logo" widget="image" class="oe_avatar"/>
+                            <field name="instagram_url" placeholder="https://instagram.com/yourcafe"/>
+                        </group>
+                    </group>
+                    <group string="Category Mapping">
+                        <group>
+                            <label for="hot_category_ids" string="Light Section (White BG)"/>
+                            <field name="hot_category_ids" widget="many2many_tags" nolabel="1" placeholder="Select categories for white background..."/>
+                        </group>
+                        <group>
+                            <label for="cold_category_ids" string="Dark Section (Black BG)"/>
+                            <field name="cold_category_ids" widget="many2many_tags" nolabel="1" placeholder="Select categories for black background..."/>
+                        </group>
+                    </group>
+                    <group string="Access">
+                        <group>
+                            <field name="access_token" readonly="1"/>
+                            <field name="menu_url" widget="CopyClipboardChar" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="qr_code_url" invisible="1"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Instructions:</strong>
+                        <ol>
+                            <li>Select the POS Configuration that contains your products</li>
+                            <li>Assign POS categories to Light Section (white background) or Dark Section (black background)</li>
+                            <li>Upload your logo (optional)</li>
+                            <li>Copy the Menu URL or click "View QR Code" to share with customers</li>
+                        </ol>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- V60 Menu Config List View -->
+    <record id="v60_menu_config_list_view" model="ir.ui.view">
+        <field name="name">v60.menu.config.list</field>
+        <field name="model">v60.menu.config</field>
+        <field name="arch" type="xml">
+            <list string="V60 QR Menus">
+                <field name="name"/>
+                <field name="cafe_name"/>
+                <field name="pos_config_id"/>
+                <field name="menu_url" widget="CopyClipboardChar"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- V60 Menu Config Search View -->
+    <record id="v60_menu_config_search_view" model="ir.ui.view">
+        <field name="name">v60.menu.config.search</field>
+        <field name="model">v60.menu.config</field>
+        <field name="arch" type="xml">
+            <search string="Search V60 Menus">
+                <field name="name"/>
+                <field name="cafe_name"/>
+                <field name="pos_config_id"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- V60 Menu Config Action -->
+    <record id="action_v60_menu_config" model="ir.actions.act_window">
+        <field name="name">V60 QR Menus</field>
+        <field name="res_model">v60.menu.config</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first V60 QR Menu
+            </p>
+            <p>
+                Configure a beautiful QR menu with the V60 Café design theme.
+                Select your POS configuration and categorize your products.
+            </p>
+        </field>
+    </record>
+</odoo>

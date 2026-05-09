@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Landing Page Template -->
+    <template id="v60_landing_page" name="V60 Landing Page">
+        <t t-call="web.frontend_layout">
+            <t t-set="head">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+                <link rel="stylesheet" href="/v60_qr_menu/static/src/css/v60_menu.css"/>
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&amp;family=Lora:wght@400;500;600&amp;display=swap');
+
+                    .v60-landing-body {
+                        min-height: 100vh;
+                        background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 20px;
+                        margin: 0;
+                    }
+
+                    .v60-landing-card {
+                        text-align: center;
+                        max-width: 350px;
+                        width: 100%;
+                    }
+
+                    .v60-landing-logo {
+                        width: 120px;
+                        height: 120px;
+                        margin: 0 auto 30px;
+                        border: 3px solid #ffffff;
+                        border-radius: 15px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #000000;
+                        overflow: hidden;
+                    }
+
+                    .v60-landing-logo img {
+                        max-width: 100%;
+                        max-height: 100%;
+                        object-fit: contain;
+                    }
+
+                    .v60-landing-logo-text {
+                        color: #ffffff;
+                        font-family: 'Lora', serif;
+                        font-size: 36px;
+                        font-weight: bold;
+                    }
+
+                    .v60-landing-logo-sub {
+                        color: #ffffff;
+                        font-size: 12px;
+                        font-family: 'Lora', serif;
+                    }
+
+                    .v60-landing-title {
+                        font-family: 'Dancing Script', cursive;
+                        font-size: 42px;
+                        color: #ffffff;
+                        margin-bottom: 10px;
+                    }
+
+                    .v60-landing-subtitle {
+                        font-family: 'Lora', serif;
+                        font-size: 16px;
+                        color: #888888;
+                        margin-bottom: 50px;
+                    }
+
+                    .v60-landing-btn {
+                        display: block;
+                        width: 100%;
+                        padding: 18px 30px;
+                        margin-bottom: 15px;
+                        font-family: 'Lora', serif;
+                        font-size: 18px;
+                        font-weight: 500;
+                        text-decoration: none;
+                        border-radius: 30px;
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+                        border: 2px solid #ffffff;
+                    }
+
+                    .v60-landing-btn-menu {
+                        background: #ffffff;
+                        color: #000000;
+                    }
+
+                    .v60-landing-btn-menu:hover {
+                        background: #f0f0f0;
+                        transform: translateY(-2px);
+                        box-shadow: 0 5px 20px rgba(255,255,255,0.2);
+                    }
+
+                    .v60-landing-btn-instagram {
+                        background: transparent;
+                        color: #ffffff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                    }
+
+                    .v60-landing-btn-instagram:hover {
+                        background: rgba(255,255,255,0.1);
+                        transform: translateY(-2px);
+                    }
+
+                    .v60-instagram-icon {
+                        width: 24px;
+                        height: 24px;
+                    }
+                </style>
+            </t>
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <body class="v60-landing-body">
+                <div class="v60-landing-card">
+                    <!-- Logo -->
+                    <div class="v60-landing-logo">
+                        <t t-if="logo_base64">
+                            <img t-att-src="'data:image/png;base64,' + logo_base64" alt="Logo"/>
+                        </t>
+                        <t t-else="">
+                            <div>
+                                <div class="v60-landing-logo-text">V60</div>
+                                <div class="v60-landing-logo-sub">Café</div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Title -->
+                    <h1 class="v60-landing-title">
+                        <t t-esc="menu_config.cafe_name or 'V60 Café'"/>
+                    </h1>
+                    <p class="v60-landing-subtitle">Welcome</p>
+
+                    <!-- Menu Button -->
+                    <a t-att-href="menu_url" class="v60-landing-btn v60-landing-btn-menu">
+                        View Menu
+                    </a>
+
+                    <!-- Instagram Button -->
+                    <t t-if="instagram_url">
+                        <a t-att-href="instagram_url" target="_blank" class="v60-landing-btn v60-landing-btn-instagram">
+                            <svg class="v60-instagram-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                            Follow us on Instagram
+                        </a>
+                    </t>
+                </div>
+            </body>
+        </t>
+    </template>
+
+    <!-- Main Menu Page Template -->
+    <template id="v60_menu_page" name="V60 QR Menu Page">
+        <t t-call="web.frontend_layout">
+            <t t-set="head">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+                <link rel="stylesheet" href="/v60_qr_menu/static/src/css/v60_menu.css"/>
+                <style>
+                    /* Google Fonts fallback */
+                    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&amp;family=Lora:wght@400;500;600&amp;display=swap');
+
+                    .v60-menu-title {
+                        font-family: 'Dancing Script', 'Brush Script MT', cursive;
+                    }
+                    .v60-item-name, .v60-item-price, .v60-category-title {
+                        font-family: 'Lora', 'Georgia', serif;
+                    }
+                </style>
+            </t>
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <body class="v60-menu-body">
+                <div class="v60-menu-container">
+                    <!-- Header with Menu Title and Logo -->
+                    <div class="v60-menu-header">
+                        <h1 class="v60-menu-title">menu</h1>
+                        <div class="v60-logo-container">
+                            <t t-if="logo_base64">
+                                <img t-att-src="'data:image/png;base64,' + logo_base64" alt="Logo"/>
+                            </t>
+                            <t t-else="">
+                                <div>
+                                    <div class="v60-logo-text">V60</div>
+                                    <div class="v60-logo-subtext">Café</div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- Light Section (Hot Beverages) -->
+                    <t t-if="menu_data.get('hot_categories')">
+                        <div class="v60-section-light">
+                            <t t-foreach="menu_data['hot_categories'].items()" t-as="category">
+                                <div class="v60-category-header">
+                                    <span class="v60-category-title v60-category-title-light">
+                                        <t t-esc="category[0]"/>
+                                    </span>
+                                </div>
+                                <ul class="v60-menu-items">
+                                    <t t-foreach="category[1]" t-as="product">
+                                        <li class="v60-menu-item">
+                                            <span class="v60-item-name v60-item-name-light">
+                                                <t t-esc="product['name']"/>
+                                            </span>
+                                            <span class="v60-item-line v60-item-line-wavy"></span>
+                                            <span class="v60-item-price v60-item-price-light">
+                                                <t t-esc="'{:,.0f}'.format(product['price'])"/>
+                                            </span>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </t>
+                        </div>
+                    </t>
+
+                    <!-- Dark Section (Cold Beverages) -->
+                    <t t-if="menu_data.get('cold_categories')">
+                        <div class="v60-section-dark">
+                            <div class="v60-dark-categories">
+                                <t t-foreach="menu_data['cold_categories'].items()" t-as="category">
+                                    <div class="v60-dark-category">
+                                        <div class="v60-category-header">
+                                            <span class="v60-category-title v60-category-title-dark">
+                                                <t t-esc="category[0]"/>
+                                            </span>
+                                        </div>
+                                        <ul class="v60-menu-items">
+                                            <t t-foreach="category[1]" t-as="product">
+                                                <li class="v60-menu-item">
+                                                    <span class="v60-item-name v60-item-name-dark">
+                                                        <t t-esc="product['name']"/>
+                                                    </span>
+                                                    <span class="v60-item-line v60-item-line-wavy v60-item-line-wavy-dark"></span>
+                                                    <span class="v60-item-price v60-item-price-dark">
+                                                        <t t-esc="'{:,.0f}'.format(product['price'])"/>
+                                                    </span>
+                                                </li>
+                                            </t>
+                                        </ul>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Empty State -->
+                    <t t-if="not menu_data.get('hot_categories') and not menu_data.get('cold_categories')">
+                        <div class="v60-section-light" style="text-align: center; padding: 60px 30px;">
+                            <p style="font-size: 18px; color: #666;">No menu items available</p>
+                            <p style="font-size: 14px; color: #999; margin-top: 10px;">Please configure the menu categories in the backend</p>
+                        </div>
+                    </t>
+                </div>
+            </body>
+        </t>
+    </template>
+</odoo>
