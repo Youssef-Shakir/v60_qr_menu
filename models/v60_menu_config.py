@@ -15,7 +15,13 @@ class V60MenuConfig(models.Model):
     # Branding
     logo = fields.Binary(string='Logo', attachment=True)
     cafe_name = fields.Char(string='Café Name', default='V60 Café')
+
+    # Landing page buttons
     instagram_url = fields.Char(string='Instagram URL', help='Full Instagram profile URL (e.g., https://instagram.com/v60cafe)')
+    location_url = fields.Char(string='Location URL', help='Google Maps or location link (e.g., https://maps.google.com/...)')
+    music_request_url = fields.Char(string='Music Request URL', help='Link for music requests (leave empty for Coming Soon)')
+    show_music_request = fields.Boolean(string='Show Music Request Button', default=False,
+                                         help='Show the music request button on landing page')
 
     # Colors (following the V60 design)
     primary_bg_color = fields.Char(string='Primary Background', default='#FFFFFF',

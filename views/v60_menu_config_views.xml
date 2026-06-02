@@ -38,7 +38,16 @@
                         </group>
                         <group string="Branding">
                             <field name="logo" widget="image" class="oe_avatar"/>
+                        </group>
+                    </group>
+                    <group string="Landing Page Buttons">
+                        <group>
                             <field name="instagram_url" placeholder="https://instagram.com/yourcafe"/>
+                            <field name="location_url" placeholder="https://maps.google.com/..."/>
+                        </group>
+                        <group>
+                            <field name="show_music_request"/>
+                            <field name="music_request_url" placeholder="Link or leave empty for Coming Soon" invisible="not show_music_request"/>
                         </group>
                     </group>
                     <group string="Odoo POS Categories" invisible="item_source == 'manual'">
